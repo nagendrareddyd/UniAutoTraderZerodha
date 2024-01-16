@@ -19,8 +19,8 @@ def placeOrder(order: Order):
     access_token = config.ACCESS_TOKEN
 
     if redis_client.exists('Access_Token') == 1 :
-        logger.info(f'ACCESS TOKEN from redis- {access_token}')
         access_token = redis_client.get('Access_Token')
+        logger.info(f'ACCESS TOKEN from redis- {access_token}')
     else :
         access_token = utilities.generate_access_token()
         logger.info(f'ACCESS TOKEN - {access_token}')

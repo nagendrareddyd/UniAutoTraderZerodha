@@ -15,9 +15,13 @@ def startTicksData():
     logger.info('Generating access token')
     redis_client = redis.StrictRedis(host='localhost', port=6379, db=0, charset="utf-8", decode_responses=True)
 
-    access_token = utils.generate_access_token()
-    logger.info(f'ACCESS TOKEN - {access_token}')
-    redis_client.set('Access_Token', access_token)
+    if redis_client.exists('Access_Token') == 1 :
+        access_token = redis_client.get('Access_Token')
+        logger.info(f'ACCESS TOKEN from redis- {access_token}')
+    else :
+        access_token = utils.generate_access_token()
+        logger.info(f'ACCESS TOKEN - {access_token}')
+        redis_client.set('Access_Token', access_token)
 
     logger.info('TicksAndOrders started')
     
