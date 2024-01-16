@@ -26,7 +26,7 @@ def storeOrderToJsonFile(executedOrder, initialprice):
         json.dump(json_string, file, indent=4)
 
 def generate_access_token():
-  creds={'api_key': 'hqkkwu5xy7s7k1p9', 'api_secret': 'q3ytb4scipcrav36owmqn21ztrfac7ep', 'user_id': 'PS9881', 'user_pwd': 'Srinath123*', 'totp_key': '2X3UA42KWDBLVMU4J3UZAMYVLE3KS57C'}
+  creds={'api_key': config.API_KEY, 'api_secret': config.API_SECRET, 'user_id': config.USER_ID, 'user_pwd': config.PASSWORD, 'totp_key': config.TOTP_KEY}
 
   import requests, json
   from pyotp import TOTP

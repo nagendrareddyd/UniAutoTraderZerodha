@@ -1,4 +1,8 @@
 API_KEY = 'hqkkwu5xy7s7k1p9'
+API_SECRET = 'q3ytb4scipcrav36owmqn21ztrfac7ep'
+USER_ID = 'PS9881'
+PASSWORD = 'Srinath123*'
+TOTP_KEY = '2X3UA42KWDBLVMU4J3UZAMYVLE3KS57C'
 ACCESS_TOKEN = 'zgVRq1eD1SqLCBzrM2HDiBOwIIXGRWY9'
 LOG_FILE_PATH = '/Users/nagi/Projects/Trading/LiveCode/UniAutoTraderZerodha/app.log'
 INSTRUMENT_TOKEN='15776514,260105,256265'
