@@ -1,0 +1,24 @@
+1. Store the range high and low values to redis
+2. Implement iceburg orders or split the orders
+3. Try to convert the strategy logic to c#
+4. Updating access token, expiry date and instrument token
+5. exception handling need to be improved
+6. Need a saperate program to find the right strike price to buy
+
+Srinath Automation 
+Daily updates
+1. Access token to all the config files
+2. Symbols of options of a range of 2000
+3. Lot qty in strategy config, this should take the required qty from a different files ( adding a new file staticConfig.py to strategy)
+
+Monthly updates
+1. Instrument token of futures in LiveTradeData and Strategy config
+
+Website
+1. Connecting to redis cache
+2. Show the latest redis values on refresh.
+2. Updating all redis values.
+
+External
+Need to check with prabha for zerodha accont for testing
+
