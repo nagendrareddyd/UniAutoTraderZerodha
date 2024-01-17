@@ -3,6 +3,9 @@ import requests
 import json
 import pandas as pd
 from kiteconnect import KiteConnect
+import redis
+
+redis_client = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
 
 def getOptionsWithPremium(symbol, premium_start, premium_end, expiry_date, type):
     df = getOptionsChainData(symbol)
@@ -44,7 +47,8 @@ def get_nearest_symbol_info(
     ):
 
     kite = KiteConnect(api_key=config.API_KEY)
-    kite.set_access_token(config.ACCESS_TOKEN)
+    access_token = redis_client.get('Access_Token')
+    kite.set_access_token(access_token)
 
     instruments_df = pd.DataFrame (kite.instruments (exchange='NFO'))
     options_df = instruments_df[(instruments_df['segment'] == 'NFO-OPT') & (instruments_df['name'].isin(['NIFTY', 'BANKNIFTY']))] #the original data that downloaded from Zerodha for all the instruments

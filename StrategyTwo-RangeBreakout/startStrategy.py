@@ -23,6 +23,12 @@ redis_client = redis.StrictRedis(host='localhost', port=6379, db=0, charset="utf
 
 def startStrategyProcess():
     logger.info('started strategy')
+    if redis_client.exists('Access_Token') != 1 :
+        access_token = utilities.generate_access_token()
+        logger.info(f'ACCESS TOKEN - {access_token}')
+        redis_client.set('Access_Token', access_token)
+        access_token = redis_client.get('Access_Token')
+
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop.run_until_complete(start())
@@ -35,7 +41,7 @@ async def start():
     WaitForStartTime()
 
     # find the range high and low
-    (rangeHigh, rangeLow) = (48227, 48130) #SetRangeHighAndLow()
+    (rangeHigh, rangeLow) = SetRangeHighAndLow()
     logger.info(f'Range High - {rangeHigh} , Range Low - {rangeLow}')
     
     # wait until the buy signal

@@ -59,25 +59,12 @@ def startTicksData():
         for index, row in order_df.iterrows():
             if 'BANKNIFTY' in row["tradingsymbol"]:
                 #update order to ache
-                if row['status'] == 'COMPLETE':
+                if row['status'] == 'COMPLETE' and redis_client.exists(str(row['order_id'])) == 1:
                     order = Order(row["tradingsymbol"],row['transaction_type'],row["instrument_token"],row["quantity"],'',row["order_id"],row['status'],row['average_price'])
                     sessionVariables.addOrUpdateOrderToCache(order)
-                
                     ws.subscribe([int(row["instrument_token"])])
                     ws.set_mode(ws.MODE_LTP, [int(row["instrument_token"])])
                     redis_client.set(str(row['instrument_token']), row['average_price'])
-
-            if 'NIFTY' in row["tradingsymbol"]:
-                #update order to ache
-                
-                if row['status'] == 'COMPLETE':
-                    order = Order(row["tradingsymbol"],row['transaction_type'],row["instrument_token"],row["quantity"],'',row["order_id"],row['status'],row['average_price'])
-                    sessionVariables.addOrUpdateOrderToCache(order)
-                
-                    ws.subscribe([int(row["instrument_token"])])
-                    ws.set_mode(ws.MODE_LTP, [int(row["instrument_token"])])
-                    redis_client.set(str(row['instrument_token']), row['average_price'])
-
 
     def on_connect(ws, response):
         tokens = config.INSTRUMENT_TOKEN.split(",")

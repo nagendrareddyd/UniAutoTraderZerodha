@@ -25,7 +25,7 @@ def placeOrder(order: Order):
         access_token = utilities.generate_access_token()
         logger.info(f'ACCESS TOKEN - {access_token}')
         redis_client.set('Access_Token', access_token)
-        access_token = redis_client.set('Access_Token')
+        access_token = redis_client.get('Access_Token')
 
     kite.set_access_token(access_token)
     
@@ -43,7 +43,10 @@ def placeOrder(order: Order):
                                             variety=kite.VARIETY_REGULAR,
                                             order_type=kite.ORDER_TYPE_MARKET,
                                             product=kite.PRODUCT_MIS, # change this to kite.PRODUCT_NRML
-                                            validity=kite.VALIDITY_DAY)
+                                            validity=kite.VALIDITY_DAY,
+                                            tag='st01')
+                redis_client.set(str(order_id), '')
+                logger.info(f"Order placed. ID is: {order_id}")
                 sessionVariables.addOrUpdateOrderToCache(Order(order.tradingsymbol, order.transaction_type,'',config.LEG_QTY,'',order_id,'Pending',''))
             if remaininglots > 0:
                 order_id = kite.place_order(tradingsymbol=order.tradingsymbol,
@@ -53,7 +56,10 @@ def placeOrder(order: Order):
                                             variety=kite.VARIETY_REGULAR,
                                             order_type=kite.ORDER_TYPE_MARKET,
                                             product=kite.PRODUCT_MIS, # change this to kite.PRODUCT_NRML
-                                            validity=kite.VALIDITY_DAY)
+                                            validity=kite.VALIDITY_DAY,
+                                            tag='st01')
+                redis_client.set(str(order_id), '')
+                logger.info(f"Order placed. ID is: {order_id}")
                 sessionVariables.addOrUpdateOrderToCache(Order(order.tradingsymbol, order.transaction_type,'',remaininglots,'',order_id,'Pending',''))
             
             # leg_qty = order.quantity / 2
@@ -78,7 +84,7 @@ def placeOrder(order: Order):
                                         order_type=kite.ORDER_TYPE_MARKET,
                                         product=kite.PRODUCT_MIS, # change this to kite.PRODUCT_NRML
                                         validity=kite.VALIDITY_DAY)
-
+            redis_client.set(str(order_id), '')
             logger.info(f"Order placed. ID is: {order_id}")
             sessionVariables.addOrUpdateOrderToCache(Order(order.tradingsymbol, order.transaction_type,'',order.quantity,'',order_id,'Pending',''))
         return order_id
