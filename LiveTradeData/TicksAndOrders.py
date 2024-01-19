@@ -59,7 +59,7 @@ def startTicksData():
         for index, row in order_df.iterrows():
             if 'BANKNIFTY' in row["tradingsymbol"]:
                 #update order to ache
-                if row['status'] == 'COMPLETE' and redis_client.exists(str(row['order_id'])) == 1:
+                if row['status'] == 'COMPLETE':
                     order = Order(row["tradingsymbol"],row['transaction_type'],row["instrument_token"],row["quantity"],'',row["order_id"],row['status'],row['average_price'])
                     sessionVariables.addOrUpdateOrderToCache(order)
                     ws.subscribe([int(row["instrument_token"])])
