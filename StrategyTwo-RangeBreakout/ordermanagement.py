@@ -7,6 +7,7 @@ from order import Order
 import sessionVariables
 import redis
 import utilities
+import math
 
 setup_logging()
 logger = get_logger(__name__)
@@ -32,7 +33,7 @@ def placeOrder(order: Order):
     # Place an order
     try:
         if order.quantity > config.LEG_QTY:
-            legs_qty = round(order.quantity/config.LEG_QTY)
+            legs_qty = math.floor(order.quantity/config.LEG_QTY)
             remaininglots = order.quantity % config.LEG_QTY
 
             for i in range(legs_qty):
